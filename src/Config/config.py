@@ -37,4 +37,16 @@ class ConfigCSV:
     # Poner un batch muy alto puede dar error a la hora d generar lenguajes por mala comprension de GPT y un batch muy bajo seria un proceso mas lento. `Default: 100`
 
     csv_path: str = os.path.sep.join([os.getcwd(), "Data", "my_csv_file.csv"])
-    """Direccion default del archivo CSV"""
+    """Direccion default del archivo `CSV`"""
+
+
+class ConfigJSON:
+    system_prompt: str = (
+        'Eres un experto en lenguajes. Tu tarea es dado un lenguaje y una frase u oracion, traducir esta al lenguage especificado. Es muy importante que cualquier termino encerrado entre los signos <> o los signos {}, lo mantengas exactamente igual, son palabras claves. Puede pasar que haya codigo html como <b>Texto</b>, en este caso no puedes traducir <b> ni </b> pero si debes traducir la palabra "Texto" que esta contenida entre <b> y </b>.'
+    )
+    """
+    Prompt de sistema que se le pasa a gpt4-o-mini para una traduccion simple respetando las especificidades
+    """
+
+    csv_path: str = os.path.sep.join([os.getcwd(), "Data", "my_json_file.csv"])
+    """Direccion default del archivo `JSON`"""

@@ -1,0 +1,68 @@
+{
+    "BurnCard": {
+        "es": {
+            "name": "Quemadura",
+            "description": "Cuando termina el turno, si esta carta permanece en tu mano, causara 2 de danno al personaje."
+        }
+    },
+    "CursedCard": {
+        "es": {
+            "name": "Maldicion",
+            "description": "Esta carta no se puede jugar. Al terminar el turno ira directo al cementerio."
+        }
+    },
+    "ElectricCard": {
+        "es": {
+            "name": "Electrocutar",
+            "description": "Recibe 1 acumulacion de electrocutar al finalizar el turno si esta carta permanece en la mano."
+        }
+    },
+    "ApplyElectric": {
+        "es": {
+            "name": "ApplyElectric",
+            "description": ""
+        }
+    },
+    "MudCard": {
+        "es": {
+            "name": "Embarro",
+            "description": "Recibe 1 acumulacion de Barro al Finalizar el turno si esta carta permanece en la mano, al completar 3 acumulaciones el objetivo es enraizado."
+        }
+    },
+    "ApplyMud": {
+        "es": {
+            "name": "ApplyMud",
+            "description": ""
+        }
+    },
+    "Intangible": {
+        "es": {
+            "name": "Intangible",
+            "description": "Inmune al danno mientras este efecto este activo."
+        }
+    },
+    "Justice": {
+        "es": {
+            "name": "Juicio",
+            "description": "Effecto innato del Serafin."
+        }
+    },
+    "Placaje": {
+        "es": {
+            "name": "Placaje",
+            "description": "Protege 1 de daño por cada acumulacion, cada vez que el portador recibe daño se pierde 1 acumulacion."
+        }
+    },
+    "Regeneration": {
+        "es": {
+            "name": "Regeneracion",
+            "description": "Cura 1 de daño por cada acumulacion al iniciar el turno del portador, cada vez que ocurre su efecto se reduce en 1 su cantidad de acumulaciones"
+        }
+    },
+    "Resistent": {
+        "es": {
+            "name": "Resistente",
+            "description": "Aumenta el escudo recibido en un 25%"
+        }
+    }
+}

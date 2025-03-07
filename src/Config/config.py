@@ -42,11 +42,11 @@ class ConfigCSV:
 
 class ConfigJSON:
     system_prompt: str = (
-        'Eres un experto en lenguajes. Tu tarea es dado un lenguaje y una frase u oracion, traducir esta al lenguage especificado. Es muy importante que cualquier termino encerrado entre los signos <> o los signos {}, lo mantengas exactamente igual, son palabras claves. Puede pasar que haya codigo html como <b>Texto</b>, en este caso no puedes traducir <b> ni </b> pero si debes traducir la palabra "Texto" que esta contenida entre <b> y </b>.'
+        'Eres un experto en lenguajes. Tu tarea es dado un lenguaje y una frase u oracion, traducir esta al lenguage especificado, solamente debes traducir la frase exacta. Es muy importante que cualquier termino encerrado entre los signos <> o los signos {}, lo mantengas exactamente igual, son palabras claves. Puede pasar que haya codigo html como <b>Texto</b>, en este caso no puedes traducir <b> ni </b> pero si debes traducir la palabra "Texto" que esta contenida entre <b> y </b>.'
     )
     """
     Prompt de sistema que se le pasa a gpt4-o-mini para una traduccion simple respetando las especificidades
     """
 
-    csv_path: str = os.path.sep.join([os.getcwd(), "Data", "my_json_file.csv"])
+    json_path: str = os.path.sep.join([os.getcwd(), "Data", "my_json_file.json"])
     """Direccion default del archivo `JSON`"""

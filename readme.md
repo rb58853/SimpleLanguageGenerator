@@ -11,13 +11,16 @@ En el archivo [`src/CSVManage/get_language.py`](src/CSVManage/get_language.py), 
 En el archivo [`src/CSVManage/utils.py`](src/CSVManage/utils.py), el metodo `generate_n_columns_from_languages_list` genera una columna nueva por cada uno de los idiomas que se pasen en el parametro `languages: list`.
 
 ### Ejemplo de uso y resultados
-............................
+TODO
 
 ## Generacion JSON
+TODO
 
 ## Requirements
+### Bibliotecas
 El proyecto requiere cada una de las siguientes bibliotecas que se encuentran en el archivo `requirements.txt`:
-- pandas
+- `pandas`: biblioteca para administrar los `.csv`.
+- `tqdm`: biblioteca para generar la barra de progreso.
 
 ### OpenAI API
 Dado que el proyecto usa `LLMs` de OpenAI, es imprescindible usar una cuenta de esta pagando creditos para usar la api de este servicio. Para esto entre a [la pagina oficial]() de OpenAI y siga los pasos para crear una cuenta con este objetivo.

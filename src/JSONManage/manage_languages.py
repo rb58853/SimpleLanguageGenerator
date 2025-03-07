@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 gpt: GPT = GPT()
 
-base_language_iso = "base"
+base_language_iso = "es"
 
 
 def newlanguage(
@@ -45,7 +45,7 @@ async def call_new_language(
             language=language,
             language_iso=language_iso,
             key=key,
-            json=my_json,
+            my_json=my_json,
             pbar=pbar,
         )
         for key in my_json
@@ -56,34 +56,55 @@ async def call_new_language(
         json.dump(my_json, file, indent=4)
 
 
+MAX_ITER_ON_ERROR = 50
+
+
 async def GenerateValuesForKey(
-    language: str, language_iso: str, key: str, json: dict[str, dict], pbar: tqdm
+    language: str,
+    language_iso: str,
+    key: str,
+    my_json: dict[str, dict],
+    pbar: tqdm,
+    iteration: int = 0,
+    path: str = ConfigJSON.json_path,
 ):
-    if not json[key].__contains__(language_iso) or (
-        json[key][language_iso]["name"] == ""
-        and json[key][base_language_iso]["name"] != ""
-    ):
-        if not json[key].__contains__(language_iso):
-            json[key][language_iso] = {"name": "", "description": ""}
+    try:
+        if not my_json[key].__contains__(language_iso) or (
+            my_json[key][language_iso]["name"] == ""
+            and my_json[key][base_language_iso]["name"] != ""
+        ):
+            if not my_json[key].__contains__(language_iso):
+                my_json[key][language_iso] = {"name": "", "description": ""}
 
-        json[key][language_iso]["name"] = await gpt.single_translate(
-            language=language, string=json[key][base_language_iso]["name"]
-        )
-    elif json[key][base_language_iso]["name"] == "":
-        json[key][language_iso]["name"] = ""
+            my_json[key][language_iso]["name"] = await gpt.single_translate(
+                language=language, string=my_json[key][base_language_iso]["name"]
+            )
+        elif my_json[key][base_language_iso]["name"] == "":
+            my_json[key][language_iso]["name"] = ""
 
-    if not json[key].__contains__(language_iso) or (
-        json[key][language_iso]["description"] == ""
-        and json[key][base_language_iso]["description"] != ""
-    ):
-        json[key][language_iso]["description"] = await gpt.single_translate(
-            language=language, string=json[key][base_language_iso]["description"]
-        )
-    elif json[key][base_language_iso]["description"] == "":
-        json[key][language_iso]["description"] = ""
+        if not my_json[key].__contains__(language_iso) or (
+            my_json[key][language_iso]["description"] == ""
+            and my_json[key][base_language_iso]["description"] != ""
+        ):
+            my_json[key][language_iso]["description"] = await gpt.single_translate(
+                language=language, string=my_json[key][base_language_iso]["description"]
+            )
+        elif my_json[key][base_language_iso]["description"] == "":
+            my_json[key][language_iso]["description"] = ""
 
-    pbar.set_postfix(api_price=gpt.current_price, refresh=False)
-    pbar.update()
+        # with open(path, "w") as file:
+        #     json.dump(my_json, file, indent=4)
+
+        pbar.set_postfix(api_price=gpt.current_price, refresh=False)
+        pbar.update()
+    except:
+        # Si hay un error como puedo ser timeouterror repetir la funcion cierta cantidad de intentos
+        iteration += 1
+        await asyncio.sleep(0.5)
+        if iteration < MAX_ITER_ON_ERROR:
+            await GenerateValuesForKey(
+                language, language_iso, key, json, pbar, iteration
+            )
 
 
 def delete_language(language_iso: str, path: str = ConfigJSON.json_path):

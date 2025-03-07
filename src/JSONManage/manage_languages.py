@@ -37,7 +37,7 @@ async def call_new_language(
     with open(path, "r") as file:
         my_json: dict = json.load(file)
 
-    print(f"\n\nGENERANDO LENGUAJE {language.upper()}")
+    print(f"\nGENERANDO LENGUAJE {language.upper()}")
     pbar = tqdm(total=len(my_json), dynamic_ncols=True, desc="Generated Language")
 
     tasks = [

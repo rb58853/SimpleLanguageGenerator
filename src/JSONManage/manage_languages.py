@@ -14,12 +14,15 @@ def newlanguage(
     language_iso: str,
     path: str = ConfigJSON.json_path,
     override: bool = False,
+    simple: bool = False,
 ):
     """
     ## `new_language`
-    Genera todos los valores para un nuevo lenguaje para JSON es de la forma:
+    Genera todos los valores para un nuevo lenguaje para JSON es de las formas:
     ```
-    dict<"key":str, dict<"name||description":str,"value":str>
+    - dict<"key":str, dict<"iso":str, dict<"name||description":str,"value":str>>
+    - dict<"key":str, dict<"iso":str, "text":str>
+
     ```
 
     ### INPUTS
@@ -27,30 +30,43 @@ def newlanguage(
     - `language_iso:str`: ISO del lenguage que tendra en el JSON. Por ejemplo de 'English' es `'en'`.
     - `path:str`: direccion del archivo `.json` que se desea modificar.
     - `override:bool`: se usa para sobreescribir datos del json. Si es falso solo generara los textos que falten del idioma dado.
+    - `simple:bool`: se usa para marcar los tipos de json que son de la forma `"key"->"iso"->"text"`.
     """
-    asyncio.run(call_new_language(language, language_iso, path, override))
+    asyncio.run(call_new_language(language, language_iso, path, override, simple))
 
 
 async def call_new_language(
-    language: str, language_iso: str, path: str, override: bool
+    language: str, language_iso: str, path: str, override: bool, simple: bool
 ):
     with open(path, "r") as file:
         my_json: dict = json.load(file)
 
     print(f"\nGENERANDO LENGUAJE {language.upper()}")
     pbar = tqdm(total=len(my_json), dynamic_ncols=True, desc="Generated Language")
-
-    tasks = [
-        GenerateValuesForKey(
-            language=language,
-            language_iso=language_iso,
-            key=key,
-            my_json=my_json,
-            pbar=pbar,
-        )
-        for key in my_json
-    ]
-    await asyncio.gather(*tasks)
+    if not simple:
+        tasks = [
+            GenerateValuesForKey(
+                language=language,
+                language_iso=language_iso,
+                key=key,
+                my_json=my_json,
+                pbar=pbar,
+            )
+            for key in my_json
+        ]
+        await asyncio.gather(*tasks)
+    else:
+        tasks = [
+            GenerateSimpleValuesForKey(
+                language=language,
+                language_iso=language_iso,
+                key=key,
+                my_json=my_json,
+                pbar=pbar,
+            )
+            for key in my_json
+        ]
+        await asyncio.gather(*tasks)
 
     with open(path, "w") as file:
         json.dump(my_json, file, indent=4)
@@ -103,6 +119,39 @@ async def GenerateValuesForKey(
         await asyncio.sleep(0.5)
         if iteration < MAX_ITER_ON_ERROR:
             await GenerateValuesForKey(
+                language, language_iso, key, json, pbar, iteration
+            )
+
+
+async def GenerateSimpleValuesForKey(
+    language: str,
+    language_iso: str,
+    key: str,
+    my_json: dict[str, dict],
+    pbar: tqdm,
+    iteration: int = 0,
+    path: str = ConfigJSON.json_path,
+):
+    """
+    A diferencia de la forma de json que recibe json con `"name"` y `"description"`, este directamente tiene el texto matcheando con el `"iso"`.
+    """
+    try:
+        if (
+            not my_json[key].__contains__(language_iso)
+            or my_json[key][language_iso] == ""
+        ):
+            my_json[key][language_iso] = await gpt.single_translate(
+                language=language, string=my_json[key][base_language_iso]
+            )
+
+        pbar.set_postfix(api_price=gpt.current_price, refresh=False)
+        pbar.update()
+    except:
+        # Si hay un error como puedo ser timeouterror repetir la funcion cierta cantidad de intentos
+        iteration += 1
+        await asyncio.sleep(0.5)
+        if iteration < MAX_ITER_ON_ERROR:
+            await GenerateSimpleValuesForKey(
                 language, language_iso, key, json, pbar, iteration
             )
 

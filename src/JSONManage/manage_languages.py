@@ -161,10 +161,36 @@ def delete_language(language_iso: str, path: str = ConfigJSON.json_path):
         my_json: dict[str, dict] = json.load(file)
 
     for key in my_json:
-        for iso in my_json[key].keys:
+        keys = [key for key in my_json[key].keys()]
+        for iso in keys:
             if iso == language_iso:
                 my_json[key].__delitem__(iso)
 
     with open(path, "w") as file:
         json.dump(my_json, file, indent=4)
     pass
+
+
+def get_characters_from_laguage(
+    language_iso: str,
+    path: str = ConfigJSON.json_path,
+    base_characters: str = "",
+    simple: bool = False,
+):
+    with open(path, "r") as file:
+        my_json: dict[str, dict] = json.load(file)
+
+    result: str = base_characters
+    for key in my_json:
+        for iso in my_json[key].keys():
+            if iso == language_iso:
+                if simple:
+                    for char in my_json[key][iso]:
+                        if char not in result:
+                            result += char
+                else:
+                    for field in my_json[key][iso]:
+                        for char in my_json[key][iso][field]:
+                            if char not in result:
+                                result += char
+    return result

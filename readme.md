@@ -19,6 +19,7 @@ TODO
 ## Requirements
 ### Bibliotecas
 El proyecto requiere cada una de las siguientes bibliotecas que se encuentran en el archivo `requirements.txt`:
+- `openai`: biblioteca para usar la api y servicios de OpenAI.
 - `pandas`: biblioteca para administrar los `.csv`.
 - `tqdm`: biblioteca para generar la barra de progreso.
 
@@ -26,5 +27,5 @@ El proyecto requiere cada una de las siguientes bibliotecas que se encuentran en
 Dado que el proyecto usa `LLMs` de OpenAI, es imprescindible usar una cuenta de esta pagando creditos para usar la api de este servicio. Para esto entre a [la pagina oficial]() de OpenAI y siga los pasos para crear una cuenta con este objetivo.
 
 ## Recomendaciones
-- Intalar la biblioteca [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv") es muy util para visualizar archivos `.csv` en **vsCode**.
+- Intalar la extension [Rainbow CSV](https://marketplace.visualstudio.com/items?itemName=mechatroner.rainbow-csv) es muy util para visualizar archivos `.csv` en **vsCode**.
 - Ajustar cada uno de los prompts a las necesidades de cada cual.

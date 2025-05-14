@@ -113,6 +113,7 @@ async def GenerateValuesForKey(
 
         pbar.set_postfix(api_price=gpt.current_price, refresh=False)
         pbar.update()
+
     except:
         # Si hay un error como puedo ser timeouterror repetir la funcion cierta cantidad de intentos
         iteration += 1

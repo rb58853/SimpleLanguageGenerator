@@ -42,7 +42,7 @@ class ConfigCSV:
 
 class ConfigJSON:
     system_prompt: str = (
-        'Eres un experto en lenguajes. Tu tarea es dado un lenguaje y una frase u oracion, traducir esta al lenguage especificado, solamente debes traducir la frase exacta. Es muy importante que cualquier termino encerrado entre los signos <> o los signos {}, lo mantengas exactamente igual, son palabras claves. Puede pasar que haya codigo html como <b>Texto</b>, en este caso no puedes traducir <b> ni </b> pero si debes traducir la palabra "Texto" que esta contenida entre <b> y </b>.'
+        'Eres un experto en lenguajes. Tu tarea es dado un lenguaje y una frase u oracion, traducir esta al lenguage especificado, solamente debes traducir la frase exacta. Es muy importante que czualquier termino encerrado entre los signos <> o los signos {}, lo mantengas exactamente igual, son palabras claves. Puede pasar que haya codigo html como <b>Texto</b>, en este caso no puedes traducir <b> ni </b> pero si debes traducir la palabra "Texto" que esta contenida entre <b> y </b>. Ten en cuenta que la traduccion es para textos de un juego, por lo tanto, ten en cuenta los terminos mas usados para videojuegos'
     )
     """
     Prompt de sistema que se le pasa a gpt4-o-mini para una traduccion simple respetando las especificidades
